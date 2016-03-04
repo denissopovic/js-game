@@ -24,12 +24,6 @@
     div.innerHTML = gameScore;
     div2.innerHTML = Game.lives;
 
-
-
-
-
-
-
     function drawGame() {
 
     // Drawing the bat
@@ -55,18 +49,14 @@
     }
 
 
-
-
     switch (joypad) {
     case "left":
         count = --count -8;
-//        console.log("Counter is left " + count);
         joypad = "";
         break;
     case "right":
         count = ++count +8;
         xcount = --xcount;
-//        console.log("Counter is right " + count);
         joypad = "";
         break;
     }
@@ -96,4 +86,4 @@
 
 }
 
-        setInterval(drawGame, 1);
+    setInterval(drawGame, 1);
