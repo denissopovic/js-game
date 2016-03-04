@@ -30,7 +30,7 @@
         joyStick();
 
         if (moveBall === 350) {
-            if (numRand > count && numRand < count+60){
+            if (numRand > count-10 && numRand < count+60){
                 moveBall = 0;
                 audioMove.play();
                 numRand = Math.floor(Math.random() * 401);
@@ -53,11 +53,9 @@
         }
 
         if (Game.lives > 0) {
-            console.log(Game.lives);
             catchBall();
 
         } else {
-            console.log('Game over');
             hett.innerHTML = "Game over!";
         }
     }
@@ -82,12 +80,15 @@
     //Draw the ball
     function drawBall(){
         ctx.beginPath();
-        ctx.fillStyle = "";
+        ctx.fillStyle = "green";
         ctx.arc(numRand, moveBall, 10, 0, 2 * Math.PI);
         ctx.stroke();
+        ctx.closePath();
     }
 
     function drawBat(){
+        ctx.beginPath();
         ctx.fillStyle = "#ccc";
         ctx.fillRect(count, 350, 50, 10);
+        ctx.closePath();
     }
