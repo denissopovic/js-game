@@ -20,17 +20,25 @@
     Game.lives = 5;
     div.innerHTML = gameScore;
     div2.innerHTML = Game.lives;
+    var starCount = 0;
 
     function drawGame() {
     // re-drawing the screen
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "black";
         ctx.fillRect(0, 0, 500, 500);
-        drawBat();
+        drawTheBat();
         drawBall();
         joyStick();
+        drawStars();
+
+        starCount = ++starCount;
+
+        if (starCount > 200) {
+            starCount = 0;
+        }
 
         if (moveBall === 350) {
-            if (numRand > count-10 && numRand < count+60){
+            if (numRand >= count-10 && numRand <= count+60){
                 moveBall = 0;
                 audioMove.play();
                 numRand = Math.floor(Math.random() * 401);
@@ -82,13 +90,14 @@
         ctx.beginPath();
         ctx.fillStyle = "green";
         ctx.arc(numRand, moveBall, 10, 0, 2 * Math.PI);
-        ctx.stroke();
+        ctx.fill();
         ctx.closePath();
     }
 
-    function drawBat(){
+    // Making a function expression with anonymous function
+    var drawTheBat = function (){
         ctx.beginPath();
         ctx.fillStyle = "#ccc";
         ctx.fillRect(count, 350, 50, 10);
         ctx.closePath();
-    }
+    };
