@@ -1,20 +1,26 @@
-   
+//Create the audio tag
+var soundFile = document.createElement("audio");
+soundFile.preload = "auto";
 
-/*
-        var item = "";
-Game.loadsound = function() {
+//Load the sound file (using a source element for expandability)
+var src = document.createElement("source");
+src.src = "sound/Wacek_-_Brain_Waves_8580.mp3";
+soundFile.appendChild(src);
 
+//Load the audio tag
+//It auto plays as a fallback
+soundFile.load();
+soundFile.volume = 0.300000;
+soundFile.play();
 
-    
-    console.log('hej');
+//Plays the sound
+function playMusic() {
+    //Set the current time for the audio file to the beginning
+    soundFile.currentTime = 0.01;
+    soundFile.volume = soundFile.volume;
 
-    for(var i = 0; i < Game.soundFiles.length; i++) {
-        item = console.log(Game.soundFiles[i]);
-        
-         item[1].src = item[0];
-        item[1].onload = Game.onSoundLoaded;
-    }
-    return item;
+    //Due to a bug in Firefox, the audio needs to be played after a delay
+    setTimeout(function(){soundFile.play();},1);
 }
 
-Game.loadsound();*/
+playMusic();

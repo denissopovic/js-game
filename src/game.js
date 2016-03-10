@@ -31,12 +31,6 @@
         joyStick();
         drawStars();
 
-        starCount = ++starCount;
-
-        if (starCount > 200) {
-            starCount = 0;
-        }
-
         if (moveBall === 350) {
             if (numRand >= count-10 && numRand <= count+60){
                 moveBall = 0;
@@ -49,7 +43,7 @@
 
         function catchBall(){
             if (moveBall < 400 ) {
-                moveBall = ++moveBall;
+                moveBall = ++moveBall + 1;
             }
             else {
                 moveBall = 0;
@@ -68,7 +62,7 @@
         }
     }
 
-    setInterval(drawGame, 1);
+    setInterval(drawGame, 10);
 
     function joyStick(){
         switch (joypad) {
