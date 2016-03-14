@@ -1,8 +1,27 @@
-    var joypad; 
+var joypad;
 
-//Lets add the keyboard controls now
-	$(document).keydown(function(e){
-		var key = e.which;
-		if(key == "37" && joypad != "right") joypad = "left";
-		else if(key == "39" && joypad != "left") joypad = "right";
-	})
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+function keyDownHandler(e) {
+
+    if(e.keyCode == 39) {
+            joypad = "right";
+    }
+
+    else if(e.keyCode == 37) {
+        joypad = "left";
+    }
+
+}
+
+function keyUpHandler(e) {
+
+    if(e.keyCode == 39) {
+        joypad = "";
+    }
+
+    else if(e.keyCode == 37) {
+        joypad = "";
+    }
+}
