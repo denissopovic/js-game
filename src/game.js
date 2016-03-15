@@ -4,7 +4,7 @@ var Game = Game || {};
         blop: 'sound/blop.mp3',
         jump: 'sound/jump.mp3'
     };
-    Game.lives = 1;
+    Game.lives = 5;
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var count = 180;
@@ -15,8 +15,25 @@ var numRand = Math.floor(Math.random() * 401);
 var moveBall = 0;
 var gameScore = 0;
 var runGame = setInterval(drawGame, 10);
+var restartGame = function(){
+    if(joypad == "space"){
+        document.location.reload();
+    }
+}
 
-function joyStick(){
+var catchBall = function(){
+    if (moveBall < 400 ) {
+        moveBall += 2;
+    }
+    else {
+        moveBall = 0;
+        numRand = Math.floor(Math.random() * 401);
+        Game.lives = --Game.lives;
+        audioFail.play();
+    }
+}
+
+var joyStick = function(){
     switch (joypad) {
         case "left":
             count = --count -8;
@@ -34,16 +51,17 @@ function joyStick(){
     }
 }
 
-var drawBall = function (){
+var drawBall = function(){
     ctx.beginPath();
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "orange";
+    if (numRand < 10) { numRand += 10};
+    if (numRand > 390) { numRand += -10};
     ctx.arc(numRand, moveBall, 10, 0, 2 * Math.PI);
     ctx.fill();
     ctx.closePath();
 }
 
-// Making a function expression with anonymous function
-var drawTheBat = function (){
+var drawTheBat = function(){
     ctx.beginPath();
     ctx.fillStyle = "#ccc";
     // Make sure the bat does not go outside the canvas
@@ -76,12 +94,19 @@ var gameOver = function(){
     ctx.arc(0, 0, 0, 0, 0);
     ctx.fill();
     ctx.closePath();
+
+    ctx.beginPath();
     ctx.fillStyle = "yellow";
     ctx.font = "50px Arial";
     ctx.fillText("GAME OVER!" ,40,200);
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.fillStyle = "yellow";
+    ctx.font = "14px Arial";
+    ctx.fillText("Press space to play again!" ,110,250);
+    ctx.closePath();
 };
-
-
 
 function drawGame() {
     reDrawScreen();
@@ -92,25 +117,12 @@ function drawGame() {
     scoreCount();
     livesCount();
 
-
     if (moveBall === 350) {
         if (numRand >= count-10 && numRand <= count+60){
             moveBall = 0;
             audioMove.play();
             numRand = Math.floor(Math.random() * 401);
             gameScore += 10;
-        }
-    }
-
-    function catchBall(){
-        if (moveBall < 400 ) {
-            moveBall += 2;
-        }
-        else {
-            moveBall = 0;
-            numRand = Math.floor(Math.random() * 401);
-            Game.lives = --Game.lives;
-            audioFail.play();
         }
     }
 
@@ -124,7 +136,6 @@ function drawGame() {
         livesCount();
         gameOver();
         clearInterval(runGame);
+        setInterval(restartGame, 10);
     }
 }
-
-runGame();
