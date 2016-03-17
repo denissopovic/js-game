@@ -4,7 +4,6 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
 function keyDownHandler(e) {
-
     if(e.keyCode == 39) {
             joypad = "right";
     }
@@ -31,3 +30,9 @@ function keyUpHandler(e) {
         joypad = "";
     }
 }
+
+module.exports = {
+    joypad: joypad,
+    keyDownHandler: keyDownHandler,
+    keyUpHandler: keyUpHandler
+};

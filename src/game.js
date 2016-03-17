@@ -1,3 +1,6 @@
+require("./starscroller.js");
+require("./sound.js");
+
 var Game = Game || {};
     Game.soundFiles = {
         move: 'sound/sound.wav',
@@ -6,7 +9,7 @@ var Game = Game || {};
     };
     Game.lives = 5;
 var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
+window.ctx = canvas.getContext("2d");
 var count = 180;
 var xcount = 20;
 var audioMove = new Audio(Game.soundFiles.blop);
@@ -16,12 +19,19 @@ var moveBall = 0;
 var gameScore = 0;
 var runGame = setInterval(drawGame, 10);
 var restartGame = function(){
-    if(joypad == "space"){
+    if(spacePressed){
         document.location.reload();
     }
 }
 
-var catchBall = function(){
+var drawStars = require('./starscroller.js').drawStars;
+var rightPressed = false;
+var leftPressed = false;
+var spacePressed = false;
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+function catchBall(){
     if (moveBall < 400 ) {
         moveBall += 2;
     }
@@ -33,25 +43,18 @@ var catchBall = function(){
     }
 }
 
-var joyStick = function(){
-    switch (joypad) {
-        case "left":
-            count = --count -8;
-            joypad = "";
-            break;
-        case "right":
-            count = ++count +8;
-            xcount = --xcount;
-            joypad = "";
-            break;
-        case "space":
-            console.log("space");
-            joypad ="";
-            break;
+function joyStick(){
+    if(rightPressed) {
+        count = ++count +8;
+        xcount = --xcount;
+    }
+
+    else if(leftPressed) {
+        count = --count -8;
     }
 }
 
-var drawBall = function(){
+function drawBall(){
     ctx.beginPath();
     ctx.fillStyle = "orange";
     if (numRand < 10) { numRand += 10};
@@ -61,7 +64,7 @@ var drawBall = function(){
     ctx.closePath();
 }
 
-var drawTheBat = function(){
+function drawTheBat(){
     ctx.beginPath();
     ctx.fillStyle = "#ccc";
     // Make sure the bat does not go outside the canvas
@@ -71,24 +74,24 @@ var drawTheBat = function(){
     ctx.closePath();
 };
 
-var reDrawScreen = function(){
+function reDrawScreen(){
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, 500, 500);
 };
 
-var scoreCount = function(){
+function scoreCount(){
     ctx.fillStyle = "yellow";
     ctx.font = "10px Arial";
     ctx.fillText("SCORE: " + gameScore ,5,15);
 };
 
-var livesCount = function(){
+function livesCount(){
     ctx.fillStyle = "yellow";
     ctx.font = "10px Arial";
     ctx.fillText("LIVES: " + Game.lives ,350,15);
 };
 
-var gameOver = function(){
+function gameOver(){
     ctx.beginPath();
     ctx.fillStyle = "black";
     ctx.arc(0, 0, 0, 0, 0);
@@ -137,5 +140,33 @@ function drawGame() {
         gameOver();
         clearInterval(runGame);
         setInterval(restartGame, 10);
+    }
+}
+
+function keyDownHandler(e) {
+    if(e.keyCode == 39) {
+        rightPressed = true;
+    }
+
+    else if(e.keyCode == 37) {
+        leftPressed = true;
+    }
+
+    else if(e.keyCode == 32) {
+        spacePressed = true;
+    }
+}
+
+function keyUpHandler(e) {
+    if(e.keyCode == 39) {
+        rightPressed = false;
+    }
+
+    else if(e.keyCode == 37) {
+        leftPressed = false;
+    }
+
+    else if(e.keyCode == 32) {
+        spacePressed = false;
     }
 }

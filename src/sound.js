@@ -24,3 +24,8 @@ function playMusic() {
 }
 
 playMusic();
+
+module.exports = {
+    soundFile: soundFile,
+    playMusic: playMusic
+};
